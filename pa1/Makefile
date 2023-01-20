@@ -2,7 +2,7 @@
 # Tanya Gyanmote, tgyanmot 
 # 2023 Winter CSE101 PA#1 
 # MakeFile 
-# MakeFile
+# Complies and executes the program
 # ********************************************************************************* 
 #------------------------------------------------------------------------------
 # Makefile for CSE 101 Programming Assignment 1
