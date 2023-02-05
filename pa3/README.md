@@ -30,7 +30,7 @@ make
 
 ## Usage
 
-Once the program is built, FindPath can be called using an input and output file
+Once the program is built, FindComponents can be called using an input and output file
 
 ```python
 ./FindComponents input.txt output.txt
