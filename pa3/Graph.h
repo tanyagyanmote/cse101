@@ -1,11 +1,16 @@
-
+/********************************************************************************* 
+* Tanya Gyanmote, tgyanmot 
+* 2023 Winter CSE101 PA#3
+* ListClient.c 
+* Graph ADT header file
+*********************************************************************************/ 
 #pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include "List.h"
 
 #define UNDEF -1
-#define NIL -2
+#define NIL 0
 
 typedef struct GraphObj *Graph;
 // Constructors-Destructors

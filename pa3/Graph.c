@@ -1,11 +1,15 @@
+/********************************************************************************* 
+* Tanya Gyanmote, tgyanmot 
+* 2023 Winter CSE101 PA#3
+* Graph.c 
+* Graph ADT 
+*********************************************************************************/ 
 #include "Graph.h"
 #include "List.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define UNDEF -2
-#define NIL 0
 
 typedef struct GraphObj{
     List *adjList;
@@ -100,7 +104,7 @@ int getFinish(Graph G, int u){
         fprintf(stderr, "Graph Error: calling getFinish() with invalid vertex\n");
         exit(EXIT_FAILURE);
     }
-    return G->discover[u];
+    return G-> finish[u];
 
 }
 
@@ -146,6 +150,9 @@ void addArc(Graph G, int u, int v){
         if(index(G->adjList[u]) == -1){
             prepend(G->adjList[u],v);
         }
+        else if(get(G->adjList[u]) == v){
+            return; 
+        }
         //otherwise you can insert before
         else{
             insertAfter(G->adjList[u],v);
@@ -159,11 +166,11 @@ void Visit(Graph G, List S, int x, int *time){
     List A = G->adjList[x];
     G->discover[x] = ++ (*time);
     G->color[x] = 1;
-    for(int i = 0; i < length(A); i++){
-        i = get(A);
-        if(G->color[i]==0){
-            G->parent[i] = x;
-            Visit(G,S,i,(*time));
+    for(moveFront(A); index(A) >= 0; moveNext(A)){
+        int counter = get(A);
+        if(G->color[counter]==0){
+            G->parent[counter] = x;
+            Visit(G,S,counter,time);
         }
     }
     G->color[x] = 2;
@@ -177,49 +184,50 @@ void DFS(Graph G, List S){
         exit(EXIT_FAILURE);
     }
     //basecase
-    for(int i =0;i < G->order;i++){
+    for(int i =1;i < G->order+1;i++){
         G->color[i] = 0;
         G->parent[i] = NIL;
         G->discover[i] = UNDEF;
         G->finish[i] = UNDEF;
     }
     int time = 0;
-    for(int i = 0; i<length(S);i++){
-        i = get(S);
-        if (G->color[i] == 0){
-            Visit(G,S,i,&time);
+    for(moveFront(S); index(S) >= 0; moveNext(S)){
+        int counter = get(S);
+        if (G->color[counter] == 0){
+            Visit(G,S,counter,&time);
         }
     }
-    for(int i = 1; i <= G->order;i++){
+    for(int i = 0; i < G->order;i++){
         deleteBack(S);
     }
 }
 
 Graph transpose(Graph G){
     // BASE CASE
-    Graph transpose = newGraph();
-    // make a new graph 
-    // iterate through the graph G:
-    //      move to the front of the adj[i]
-    //      while the data isn't -1:
-    //          assign the data to some integer variable "x"
-    //          call addArc on the new graph, y, and i
-    //          move to the next element of the adj list
-    // 
+    Graph transpose = newGraph(G->order);
+    for (int i =0;i<=G->order;i++){
+        moveFront(G->adjList[i]);
+        while(index(G->adjList[i]) != -1){
+            int x = get(G->adjList[i]);
+            addArc(transpose,x,i);
+            moveNext(G->adjList[i]);
+        }
+    }
     return transpose;
 }
 
 Graph copyGraph(Graph G){
-    // BASE CASE
-    // same as copy list
-    // create a new graph
-    // iterate through the graph G:
-    //    move to the front of adj[i]
-    //    while the data isn't -1:
-    //        call addArc on the new graph, i, and the data
-    // return the new graph
+    Graph copy = newGraph(G->order);
+    for (int i =0;i<=G->order;i++){
+        moveFront(G->adjList[i]);
+        while(index(G->adjList[i]) != -1){
+            int x = get(G->adjList[i]);
+            addArc(copy,i,x);
+            moveNext(G->adjList[i]);
+        }
+    }
+    return copy;
 }
-
 
 
 void printGraph(FILE* out, Graph G){
