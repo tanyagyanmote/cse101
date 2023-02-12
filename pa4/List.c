@@ -1,6 +1,6 @@
 /********************************************************************************* 
 * Tanya Gyanmote, tgyanmot 
-* 2023 Winter CSE101 PA#3
+* 2023 Winter CSE101 PA#4
 * List.c 
 * List ADT 
 *********************************************************************************/ 
@@ -18,7 +18,7 @@ typedef struct NodeObj* Node;
 
 // private NodeObj type
 typedef struct NodeObj{
-    int data;
+    void* data;
     Node next;
     Node prev; 
 } NodeObj;
@@ -35,7 +35,7 @@ typedef struct ListObj{
 // Constructors-Destructors ---------------------------------------------------
 
 // Returns reference to new Node object. Initializes next and data fields.
-Node newNode(int data){
+Node newNode(void* data){
     Node N = malloc(sizeof(NodeObj));
     assert( N!=NULL );
     N->data = data;
@@ -97,7 +97,7 @@ int index(List L) {
     return(L->index);
 }
 
-int front(List L){
+void* front(List L){
     //preconditions
     if (L == NULL) {
         fprintf(stderr, "List Error: calling front() on NULL List reference\n");
@@ -110,7 +110,7 @@ int front(List L){
     return(L->front->data);
 }
 
-int back(List L){
+void* back(List L){
     //preconditions
     if (L == NULL) {
         fprintf(stderr, "List Error: calling back() on NULL List reference\n");
@@ -123,7 +123,7 @@ int back(List L){
     return(L->back->data);
 }
 
-int get(List L){
+void* get(List L){
     //preconditions
     if (L == NULL) {
         fprintf(stderr, "List Error: calling get() on NULL List reference\n");
@@ -140,26 +140,6 @@ int get(List L){
     return(L->cursor->data);
 }
 
-//sample fcn from Queue.c
-bool equals(List A, List B){
-    //preconditions
-    if( A==NULL || B==NULL ){
-        fprintf(stderr, "List Error: calling equals() on NULL List reference\n");
-        exit(EXIT_FAILURE);
-    }
-    bool eq;
-    Node N, M;
-    eq = ( A->length == B->length );
-    N = A->front;
-    M = B->front;
-    while( eq && N!=NULL){
-        eq = ( N->data==M->data );
-        N = N->next;
-        M = M->next;
-    }
-    return eq;
-
-}
 
 // Manipulation procedures ----------------------------------------------------qw
 // Resets L to its original empty state.
@@ -178,7 +158,7 @@ void clear(List L){
     L->index = -1;
 }
 // Overwrites the cursor element’s data with x.
-void set(List L, int x) {
+void set(List L, void* x) {
     //preconditions
     if (L == NULL) {
         fprintf(stderr, "List Error: calling set() on NULL List reference\n");
@@ -267,7 +247,7 @@ void moveNext(List L) {
 }
 // Insert new element into L. If L is non-empty,
 // insertion takes place before front element.
-void prepend(List L, int x) {
+void prepend(List L, void* x) {
     //precondition
     if (L == NULL) {
         fprintf(stderr, "List Error: calling prepend() on NULL List reference\n");
@@ -290,7 +270,7 @@ void prepend(List L, int x) {
 }
 // Insert new element into L. If L is non-empty,
 // insertion takes place after back element.
-void append(List L, int x) {
+void append(List L, void* x) {
     //precondition
     if (L == NULL) {
         fprintf(stderr, "List Error: calling append() on NULL List reference\n");
@@ -312,7 +292,7 @@ void append(List L, int x) {
 }
 // Insert new element before cursor.
 // puesdo from oh: Arka Pal
-void insertBefore(List L, int x){
+void insertBefore(List L, void* x){
     //precondition
     if (L == NULL) {
         fprintf(stderr, "List Error: calling insertBefore() on NULL List reference\n");
@@ -342,7 +322,7 @@ void insertBefore(List L, int x){
 }
 // Insert new element after cursor.
 // puesdo from oh: Arka Pal
-void insertAfter(List L, int x){
+void insertAfter(List L, void* x){
     //preconditions
     if (L == NULL) {
         fprintf(stderr, "List Error: calling insertAfter() on NULL List reference\n");
@@ -473,23 +453,23 @@ void printList(FILE* out, List L){
     }
     Node temp = NULL;
     for(temp = L->front; temp != NULL; temp = temp->next){
-        fprintf(out, "%d ", temp->data);
+        fprintf(out, "%p ", temp->data);
     }
 }
 
-List copyList(List L){
-    if (L == NULL){
-        printf("List error: calling copyList() on NULL List reference\n");
-        exit(EXIT_FAILURE);
-    }
-    //creating new list, and temp node to store value from og list
-    List copy = newList();
-    Node temp = L ->front;
-    //if not null then theres more to copy
-    while (temp != NULL) {
-        //append the data, move to next element
-        append(copy, temp->data);
-        temp = temp->next;
-    }
-    return (copy);
-}
+// List copyList(List L){
+//     if (L == NULL){
+//         printf("List error: calling copyList() on NULL List reference\n");
+//         exit(EXIT_FAILURE);
+//     }
+//     //creating new list, and temp node to store value from og list
+//     List copy = newList();
+//     Node temp = L ->front;
+//     //if not null then theres more to copy
+//     while (temp != NULL) {
+//         //append the data, move to next element
+//         append(copy, temp->data);
+//         temp = temp->next;
+//     }
+//     return (copy);
+// }
