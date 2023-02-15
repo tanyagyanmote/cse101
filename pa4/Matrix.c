@@ -415,14 +415,14 @@ Matrix product(Matrix A, Matrix B){
     return multi;
 }
 
+//puesdocode from sheel
 void printMatrix(FILE *out, Matrix M) {
     for (int i = 1; i <= M->size; i++) {
         if (length(M->rows[i]) > 0) {
             fprintf(out, "%d:", i);
-            moveFront(M->rows[i]);
-            while(index(M->rows[i]) != -1){
-                fprintf(out, " (%d, %.1f)", ((Entry)get(M->rows[i]))->column,((Entry)get(M->rows[i]))->value);
-                moveNext(M->rows[i]);
+            for(moveFront(M->rows[i]);index(M->rows[i]) != -1;moveNext(M->rows[i])){
+                Entry E = get(M->rows[i]);
+                fprintf(out, " (%d, %.1f)", E->column,E->value);
             }
             fprintf(out, "\n");
         }
