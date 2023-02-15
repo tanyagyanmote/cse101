@@ -13,8 +13,8 @@ int main(){
    int n=100000;
    Matrix A = newMatrix(n);
    Matrix B = newMatrix(n);
-   Matrix C, D, E, F, G, H, I, J;
-
+   Matrix C, D, E, F, G, H, I, J, K;
+   //testing change entry
    changeEntry(A, 1,1,9); 
    changeEntry(A, 1,2,8); 
    changeEntry(A, 1,3,7); 
@@ -34,14 +34,30 @@ int main(){
    changeEntry(B, 3,2,1);
    changeEntry(B, 3,3,1);
 
+   //checking size
+
+   if (size(A) != 100000) {
+      fprintf(stderr, "size of A is incorrect");
+      return 1;
+   }
+   if (size(B) != 100000) {
+      fprintf(stderr, "size of A is incorrect");
+      return 1;
+   }
 
    printf("A has %d non-zero entries:\n", NNZ(A));
    printMatrix(stdout, A);
+   //printf("Expected output: A has 9 non-zero entries:\n");
+
    printf("\nB has %d non-zero entries:\n", NNZ(B));
    printMatrix(stdout, B);
+   //printf("Expected output: B has 6 non-zero entries:\n");
 
+   //checking equals
    printf("\n%s\n", equals(A, B)?"true":"false" );
+   //printf("Expected output: false\n");
 
+   
    printf("\n(1.5)*A =\n");
    C = scalarMult(1.5,A);
    printMatrix(stdout, C);
@@ -74,6 +90,30 @@ int main(){
    printf("\nB*B =\n");
    printMatrix(stdout, J);
 
+   K = copy(A);
+   printf("\nCopy of A=\n");
+   printMatrix(stdout, H);
+   printf("\n");
+
+   // printf("\nSize of A=\n");
+   // printf(size(A));
+
+   // printf("\nSize of B=\n");
+   // printf(size(B));
+
+   // printf("\nSize of C=\n");
+   // printf(size(C));
+
+   // printf("\nSize of D=\n");
+   // printf(size(D));
+
+   makeZero(A);
+   printf("\nMakeZero of A=\n");
+   printMatrix(stdout, A);
+   makeZero(B);
+   printf("\nMakeZero of B=\n");
+   printMatrix(stdout, B);
+
    freeMatrix(&A);
    freeMatrix(&B);
    freeMatrix(&C);
@@ -84,8 +124,9 @@ int main(){
    freeMatrix(&H);
    freeMatrix(&I);
    freeMatrix(&J);
+   freeMatrix(&K);
 
-   return 0;
+   return EXIT_SUCCESS;
 }
 
 
@@ -139,5 +180,15 @@ B*B =
 1: (1, 2.0) (2, 1.0) (3, 2.0)
 2: (2, 1.0)
 3: (1, 2.0) (2, 2.0) (3, 2.0)
+
+Copy of A=
+1: (1, 9.0) (2, 6.0) (3, 3.0)
+2: (1, 8.0) (2, 5.0) (3, 2.0)
+3: (1, 7.0) (2, 4.0) (3, 1.0)
+
+
+MakeZero of A=
+
+MakeZero of B=
 
 */
