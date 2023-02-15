@@ -44,7 +44,7 @@ void freeEntry(Entry *pE) {
 Matrix newMatrix(int n) {
     Matrix M = malloc(sizeof(MatrixObj));
     M->rows = (List *)calloc(n + 1, sizeof(List *));
-    for (int i = 1; i <= n; i++) {
+    for (int i = 1; i < n+1; i++) {
         M->rows[i] = newList();
     }
     M->nnz = 0;
@@ -55,14 +55,12 @@ Matrix newMatrix(int n) {
 void freeMatrix(Matrix *pM) {
     if (pM != NULL && *pM != NULL) {
         makeZero(*pM);
-        for (int i = 1; i <= (*pM)->size; i++) {
+        for (int i = 1; i < (*pM)->size +1; i++) {
             freeList(&(*pM)->rows[i]);
             (*pM)->rows[i] = NULL;
         }
         free((*pM)->rows);
-        (*pM)->rows = NULL;
         free(*pM);
-        *pM = NULL;
     }
 
 }
@@ -116,7 +114,7 @@ int equals(Matrix A, Matrix B){
     return 1;
 
 }
-//using puesdocode from mahyar
+//using puesdocode from Saeed
 void makeZero(Matrix M){
     if (M == NULL) {
         fprintf(stderr, "Matrix Error: calling size() on NULL Matrix reference\n");
