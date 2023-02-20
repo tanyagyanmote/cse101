@@ -46,6 +46,51 @@ List::List(const List& L){
 	}
 }
 
+//puesdo from arka
+List::~List() {
+    clear();
+	delete(frontDummy);
+	delete(backDummy);
+}
 
+int List::length() const{
+    return num_elements;
+}
 
+ListElement List::front() const{
+    // pre: length()>0
+    if( length()==0 ){
+        throw std::length_error("List: front(): empty List");
+    }
+    return frontDummy->next->data;
+}
+
+ListElement List::back() const{
+    // pre: length()>0
+    if( length()==0 ){
+        throw std::length_error("List: back(): empty List");
+    }
+    return backDummy->prev->data;
+}
+
+int List::position() const{
+    //pre: 0 <= position() <= length().
+    return pos_cursor;
+}
+
+ListElement List::peekNext() const{
+   // pre: position()<length()
+    if(position() >= length()){
+        throw std::range_error("List: peekNext(): cursor at front");
+    }
+    return afterCursor->data;
+}
+
+ListElement List::peekPrev() const{
+   // pre: position()<length()
+    if(position()<=0){
+        throw std::range_error("List: peekPrev(): cursor at back");
+    }
+    return beforeCursor->data;
+}
 
