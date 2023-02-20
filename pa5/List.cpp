@@ -144,4 +144,38 @@ ListElement List::movePrev(){
 
 
 
+// Overriden Operators -----------------------------------------------------
+
+// idea from queue.cpp puesdo 
+
+// Inserts string representation of L into stream.
+std::ostream& operator<<( std::ostream& stream, const List& L ){
+    return stream << L.List::to_string();
+}
+
+// Returns true if and only if A is the same integer sequence as B. The 
+// cursors in both Lists are unchanged.
+bool operator==( const List& A, const List& B ){
+    return A.List::equals(B);
+}
+
+// Overwrites the state of this List with state of L.
+List& List::operator=( const List& L ){
+    if( this != &L ){ // not self assignment
+        // make a copy of L
+        List temp = L;
+        // then swap the copy's fields with fields of this
+        std::swap(frontDummy, temp.frontDummy);
+        std::swap(backDummy, temp.backDummy);
+        std::swap(num_elements, temp.num_elements);
+        //do i need?
+        std::swap(beforeCursor, temp.beforeCursor);
+        std::swap(afterCursor, temp.afterCursor);
+        std::swap(pos_cursor, temp.pos_cursor);
+    }
+   // return this with the new data installed
+   return *this;
+   // the copy, if there is one, is deleted upon return
+}
+
 
