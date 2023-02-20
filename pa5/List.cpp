@@ -94,3 +94,54 @@ ListElement List::peekPrev() const{
     return beforeCursor->data;
 }
 
+// Manipulation procedures -------------------------------------------------
+//copied clear from list.c
+void List::clear(){
+    moveFront();
+    while(frontDummy->next != backDummy){
+        eraseAfter();
+    }
+    return;
+}
+
+void List::moveFront(){
+    if (num_elements != 0) {
+        pos_cursor = 0;
+        beforeCursor = frontDummy;
+        afterCursor = frontDummy->next;
+    }
+}
+
+void List::moveBack(){
+    if (num_elements != 0) {
+        pos_cursor = num_elements;
+        beforeCursor = backDummy->prev;
+        afterCursor = backDummy;
+    }
+}
+
+ListElement List::moveNext(){
+    //pre: position()<length() 
+    if(position()>=length()){
+        throw std::range_error("List: moveNext(): cursor at back");
+    }
+    beforeCursor = afterCursor;
+    afterCursor = afterCursor -> next;
+    pos_cursor += 1;
+    return beforeCursor->data;
+}
+
+ListElement List::movePrev(){
+    // pre: position()>0
+    if(position()<=0){
+        throw std::range_error("List: movePrev(): cursor at front");
+    }
+    afterCursor = beforeCursor;
+    beforeCursor = beforeCursor -> prev;
+    pos_cursor -= 1;
+    return  afterCursor->data;
+}
+
+
+
+
