@@ -143,6 +143,74 @@ ListElement List::movePrev(){
 }
 
 
+void List::insertAfter(ListElement x){
+    Node *N = new Node(x);
+    N->next = afterCursor;
+    N->prev = beforeCursor;
+    beforeCursor->next = N;
+    afterCursor->prev = N;
+    afterCursor = N;
+    num_elements += 1;
+}
+
+void List::insertBefore(ListElement x){
+    Node *N = new Node(x);
+    N->next = afterCursor;
+    N->prev = beforeCursor;
+    beforeCursor->next = N;
+    afterCursor->prev = N;
+    beforeCursor = N;
+    num_elements += 1;
+    pos_cursor += 1;
+}
+
+
+// Returns a new List consisting of the elements of this List, followed by
+// the elements of L. The cursor in the returned List will be at postion 0.
+
+// puesdo idea from aaron
+List List::concat(const List& L) const{
+    List NL;
+    Node *one = this->frontDummy->next;
+    Node *two = L.frontDummy->next;
+    while (one != this->backDummy) {
+        NL.insertAfter(one->data);
+        one = one->next;
+    }
+    while (two != L.backDummy) {
+        NL.insertAfter(two->data);
+        two = two->next;
+    }
+    NL.moveFront();
+    return NL;
+}
+
+std::string List::to_string() const{
+    Node *N = nullptr;
+    std::string s = "(";
+    for(N = frontDummy->next;N!=backDummy->prev;N=N->next){
+        s+=std::to_string(N->data) + ", ";
+    }
+    s+=std::to_string(N->data) + ")";
+    return s;
+}
+
+// Returns true if and only if this List is the same integer sequence as R.
+// The cursors in this List and in R are unchanged.
+bool List::equals(const List& R) const{
+    bool eq = false;
+    Node *N = nullptr;
+    Node *M = nullptr;
+    eq = (this->num_elements == R.num_elements);
+    N = this->frontDummy->next;
+    M = R.frontDummy->next;
+    while( eq && N!=NULL){
+        eq = ( N->data==M->data );
+        N = N -> next;
+        M = M -> next;
+    }
+    return eq;
+}
 
 // Overriden Operators -----------------------------------------------------
 
