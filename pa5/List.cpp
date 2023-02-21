@@ -285,48 +285,6 @@ void List::cleanup(){
         A = A -> next;
         counter2 ++;
     }
-    // idea with copied list...so stupid
-    // int counter = 0;
-    // int og_pos = pos_cursor;
-    // int new_pos = pos_cursor;
-    // List Copy;
-    // Node *copy_node = this->frontDummy->next;
-    // while (copy_node != this->backDummy) {
-    //     Copy.insertBefore(copy_node->data);
-    //     copy_node = copy_node->next;
-    // }
-    // Copy.moveFront();
-    // Node *check = Copy.afterCursor;
-    // while(Copy.position() < Copy.length()){
-    //     moveFront();
-    //     counter = 0;
-    //     if(check == nullptr){
-    //         break;
-    //     }
-    //     while(position() < length()-1){
-    //         if(afterCursor == nullptr){
-    //             break;
-    //         }
-    //         if(afterCursor->data == check->data){
-    //             counter += 1;
-    //             if (counter > 1){
-    //                 if(pos_cursor < og_pos){
-    //                     new_pos += -1;
-    //                 }
-    //                 //afterCursor = afterCursor -> prev;
-    //                 eraseAfter();
-    //             }
-    //         }
-    //         moveNext();
-    //     }
-    //     check = check -> next;
-    // }
-    // pos_cursor = new_pos;
-    // moveFront();
-    // for(int i = 0; i < new_pos; i++){
-    //     moveNext();
-    // }
-
 }
 
 
