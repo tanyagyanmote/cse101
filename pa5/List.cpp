@@ -238,6 +238,96 @@ int List::findPrev(ListElement x){
 	return -1;
 }
 
+// Removes any repeated elements in this List, leaving only unique elements.
+// The order of the remaining elements is obtained by retaining the frontmost 
+// occurrance of each element, and removing all other occurances. The cursor 
+// is not moved with respect to the retained elements, i.e. it lies between 
+// the same two retained elements that it did before cleanup() was called.
+
+//puesdo idea: norton, sid
+void List::cleanup(){
+    Node *A = frontDummy->next;
+    Node *B = nullptr;
+    //two counters one for each node created
+    //increment everytime node moved next ->next
+    int counter = 0;
+    int counter2 = 0;
+    while(A != backDummy){
+        B = A;
+        counter = counter2;
+        while(B->next != backDummy){
+            if(A->data == B->next->data){
+                if(B->next == afterCursor){
+                    afterCursor = afterCursor->next;
+                }
+                if(B->next == beforeCursor){
+                    beforeCursor = beforeCursor->prev;
+                }
+                //new node to delete duplicate
+                Node *C = B->next;
+                B->next->next->prev = B;
+                B->next = B->next->next;
+                counter++;
+                delete C;
+                num_elements--;
+                if(counter < pos_cursor){
+                    pos_cursor --;
+                    counter--;
+                }
+            }
+            else{
+                B = B->next;
+                counter++;
+            }
+            // std::cout << "position" << pos_cursor << std::endl;
+            // std::cout << "counter" << counter << std::endl;
+        }
+        A = A -> next;
+        counter2 ++;
+    }
+    // idea with copied list...so stupid
+    // int counter = 0;
+    // int og_pos = pos_cursor;
+    // int new_pos = pos_cursor;
+    // List Copy;
+    // Node *copy_node = this->frontDummy->next;
+    // while (copy_node != this->backDummy) {
+    //     Copy.insertBefore(copy_node->data);
+    //     copy_node = copy_node->next;
+    // }
+    // Copy.moveFront();
+    // Node *check = Copy.afterCursor;
+    // while(Copy.position() < Copy.length()){
+    //     moveFront();
+    //     counter = 0;
+    //     if(check == nullptr){
+    //         break;
+    //     }
+    //     while(position() < length()-1){
+    //         if(afterCursor == nullptr){
+    //             break;
+    //         }
+    //         if(afterCursor->data == check->data){
+    //             counter += 1;
+    //             if (counter > 1){
+    //                 if(pos_cursor < og_pos){
+    //                     new_pos += -1;
+    //                 }
+    //                 //afterCursor = afterCursor -> prev;
+    //                 eraseAfter();
+    //             }
+    //         }
+    //         moveNext();
+    //     }
+    //     check = check -> next;
+    // }
+    // pos_cursor = new_pos;
+    // moveFront();
+    // for(int i = 0; i < new_pos; i++){
+    //     moveNext();
+    // }
+
+}
 
 
 // Returns a new List consisting of the elements of this List, followed by
