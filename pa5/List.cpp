@@ -164,6 +164,24 @@ void List::insertBefore(ListElement x){
     pos_cursor += 1;
 }
 
+void List::setAfter(ListElement x){
+   // pre: position()<length()
+    if(position()>=length()){
+        throw std::range_error("List: setAfter(): cursor at back");
+    }
+   afterCursor->data = x;
+
+}
+
+void List::setBefore(ListElement x){
+    // pre: position()>0
+    if(position()<=0){
+        throw std::range_error("List: setBefore(): cursor at front");
+    }
+    beforeCursor->data = x;
+
+}
+
 
 // Returns a new List consisting of the elements of this List, followed by
 // the elements of L. The cursor in the returned List will be at postion 0.
