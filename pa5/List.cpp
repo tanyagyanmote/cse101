@@ -181,6 +181,33 @@ void List::setBefore(ListElement x){
     beforeCursor->data = x;
 
 }
+//puesdo help arka,sara
+void List::eraseAfter(){
+    // pre: position()<length()
+    if(position()>=length()){
+        throw std::range_error("List: eraseAfter(): cursor at back");
+    }
+    Node *N = afterCursor;
+    afterCursor -> next -> prev = beforeCursor; 
+    beforeCursor -> next = afterCursor -> next;
+    afterCursor = afterCursor -> next;
+    num_elements += -1;
+    delete N;
+}
+
+void List::eraseBefore(){
+    // pre: position()>0
+    if(position()<=0){
+        throw std::range_error("List: eraseBefore(): cursor at front");
+    }
+    Node *N = beforeCursor;
+    beforeCursor -> prev -> next = afterCursor; 
+    afterCursor -> prev = beforeCursor -> prev;
+    beforeCursor = afterCursor -> prev;
+    num_elements += -1;
+    pos_cursor += -1;
+    delete N;
+}
 
 
 // Returns a new List consisting of the elements of this List, followed by
