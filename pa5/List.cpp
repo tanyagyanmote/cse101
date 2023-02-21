@@ -208,6 +208,35 @@ void List::eraseBefore(){
     pos_cursor += -1;
     delete N;
 }
+// Other Functions ---------------------------------------------------------
+
+//iterate through list and search
+int List::findNext(ListElement x){
+	Node* N = afterCursor;
+	for(; afterCursor != backDummy; N = N->next){
+		if(N->data == x){
+			moveNext();
+            // std::cout << "position" << position() << std::endl;
+			return position();
+		}
+		moveNext();
+	}
+	return -1;
+}
+
+int List::findPrev(ListElement x){
+	Node* N = beforeCursor;
+	for(; beforeCursor != frontDummy; N = N->prev){
+        // std::cout << "data" << N->data << std::endl;
+		if(N->data == x){
+			movePrev();
+            // std::cout << "position" << position() << std::endl;
+			return position();
+		}
+		movePrev();
+	}
+	return -1;
+}
 
 
 
