@@ -137,6 +137,7 @@ int main(){
    }
    cout << "F = " << F << endl;
    cout << endl;
+   F.clear();
 
    return( EXIT_SUCCESS );
 }

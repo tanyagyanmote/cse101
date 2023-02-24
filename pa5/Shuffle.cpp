@@ -45,7 +45,11 @@ void shuffle(List&D){
 }
 
 int main(int argc, char* argv[]) {
+    List Deck;
+    List Deck_copy;
+    int counter = 1;
     int size_d = atoi(argv[1]);
+    //preconditions
     if (argc != 2) {
         cerr << "ERROR: incorrect number of arguments\n" << endl;
         exit(EXIT_FAILURE);
@@ -56,20 +60,18 @@ int main(int argc, char* argv[]) {
     }
     cout << "deck size	 shuffle count" << endl;
 	cout << "------------------------------" << endl;
-    List Deck;
-    List Deck_copy;
-    int counter = 1;
-    for(int i =1; i<= size_d;i++){
+    for(int i =1; i< size_d+1;i++){
         for (int j = 0; j < i; j++) {
             Deck.insertBefore(j);
+            Deck_copy.insertBefore(j);
         }
-        Deck_copy = Deck;
         shuffle(Deck);
+        //shuffle till
         while(!(Deck == Deck_copy)){
             shuffle(Deck);
             counter++;
         }
-        cout << setw(2) << left << i << "              " << setw(2) << left << counter << endl;
+        cout << setw(2) << left << i << "              " << setw(2) << left << counter << endl; 
         Deck.clear();
         Deck_copy.clear();
         counter = 1;
