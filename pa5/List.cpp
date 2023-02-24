@@ -297,11 +297,11 @@ List List::concat(const List& L) const{
     Node *one = this->frontDummy->next;
     Node *two = L.frontDummy->next;
     while (one != this->backDummy) {
-        NL.insertAfter(one->data);
+        NL.insertBefore(one->data);
         one = one->next;
     }
     while (two != L.backDummy) {
-        NL.insertAfter(two->data);
+        NL.insertBefore(two->data);
         two = two->next;
     }
     NL.moveFront();
