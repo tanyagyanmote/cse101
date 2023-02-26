@@ -145,7 +145,7 @@ void sumList(List& S, List A, List B, int sgn){
     S.moveBack();
     A.moveBack();
     B.moveBack();
-    while((A.position() != 0 && B.position() != 0)){
+    while(A.position() > 0 && B.position() > 0 && S.position() > 0){
         long element_one = A.movePrev();
 		long element_two = (sgn)*B.movePrev();
 		S.setBefore(element_one + element_two);
