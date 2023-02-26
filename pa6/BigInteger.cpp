@@ -102,9 +102,6 @@ int normalizeList(List& L){
                     negateList(L);
                     L.moveBack();
                 }
-                else{
-                    break; 
-                }
             }
             else{
                 L.setBefore(L.peekPrev() + carry);
@@ -122,9 +119,6 @@ int normalizeList(List& L){
                     negateList(L);
                     L.moveBack();
                 }
-                else{
-                    break; 
-                }
             }
             else{
                 L.setBefore(L.peekPrev() + carry);
@@ -135,9 +129,11 @@ int normalizeList(List& L){
             L.movePrev();
         }
     }
-    // while(L.front() == 0 && L.position() == 1){
-    //     L.eraseAfter();
-    // }
+    if(L.length() > 0){
+        while(L.front() == 0){
+            L.eraseAfter();
+        }
+    }
     return (sign>0) ? 1:-1;
 }
 
@@ -272,7 +268,7 @@ BigInteger BigInteger::mult(const BigInteger& N) const{
         long ele = (N.signum)*B.movePrev();
         scalarMultList(C,ele);
         shiftList(C,col);
-        normalizeList(C);
+        //normalizeList(C);
         sumList(P,C,P,1);
         normalizeList(P);
         col ++;
