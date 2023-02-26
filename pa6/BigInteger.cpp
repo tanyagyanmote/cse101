@@ -141,22 +141,23 @@ int normalizeList(List& L){
 }
 
 void sumList(List& S, List A, List B, int sgn){
-    S.clear();
+    //S.clear();
+    S.moveBack();
     A.moveBack();
     B.moveBack();
     while((A.position() != 0 && B.position() != 0)){
         long element_one = A.movePrev();
 		long element_two = (sgn)*B.movePrev();
-		S.insertAfter(element_one + element_two);
+		S.setBefore(element_one + element_two);
     }
     while(A.position() != 0){
         long element_one = (A.movePrev());
-        S.insertAfter(element_one);
+        S.insertBefore(element_one);
 
     }
     while(B.position() != 0){
         long element_two = (sgn)*B.movePrev();
-        S.insertAfter(element_two);
+        S.insertBefore(element_two);
     }
 
     //std::cout << S << std::endl; 
@@ -276,7 +277,7 @@ BigInteger BigInteger::mult(const BigInteger& N) const{
         //std::cout << "hi" << std::endl; 
         col ++;
     }
-    std::cout << Prod.digits << std::endl; 
+    //std::cout << Prod.digits << std::endl; 
     return Prod;
 }
 
@@ -288,7 +289,6 @@ BigInteger BigInteger::mult(const BigInteger& N) const{
 // Other Functions ---------------------------------------------------------
 
 // std::string BigInteger::to_string(){
-
 // }
 
 
