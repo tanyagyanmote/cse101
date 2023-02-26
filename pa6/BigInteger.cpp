@@ -104,6 +104,7 @@ int normalizeList(List& L){
                 if(carry < 0){
                     negateList(L);
                     L.moveBack();
+                    sign = -1;
                 }
             }
             else{
@@ -121,6 +122,7 @@ int normalizeList(List& L){
                 if(carry < 0){
                     negateList(L);
                     L.moveBack();
+                    sign = -1;
                 }
             }
             else{
