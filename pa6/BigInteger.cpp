@@ -84,6 +84,9 @@ void negateList(List& L) {
 
 int normalizeList(List& L){
     int sign = 1;
+    if(L.length() == 0){
+        return 0;
+    }
     if(L.front() < 0){
         negateList(L);
         sign = -1;
@@ -129,11 +132,11 @@ int normalizeList(List& L){
             L.movePrev();
         }
     }
-    if(L.length() > 0){
-        while(L.front() == 0){
-            L.eraseAfter();
-        }
-    }
+    // if(L.length() > 0){
+    //     while(L.front() == 0){
+    //         L.eraseAfter();
+    //     }
+    // }
     return (sign>0) ? 1:-1;
 }
 
@@ -265,14 +268,15 @@ BigInteger BigInteger::mult(const BigInteger& N) const{
     B.moveBack();
     while(B.position() != 0){
         C = A;
-        long ele = (N.signum)*B.movePrev();
+        long ele = B.movePrev();
         scalarMultList(C,ele);
         shiftList(C,col);
-        //normalizeList(C);
         sumList(P,C,P,1);
         normalizeList(P);
+        //std::cout << "hi" << std::endl; 
         col ++;
     }
+    std::cout << Prod.digits << std::endl; 
     return Prod;
 }
 
@@ -284,6 +288,7 @@ BigInteger BigInteger::mult(const BigInteger& N) const{
 // Other Functions ---------------------------------------------------------
 
 // std::string BigInteger::to_string(){
+
 // }
 
 
