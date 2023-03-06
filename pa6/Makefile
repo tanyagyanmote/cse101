@@ -1,3 +1,9 @@
+#********************************************************************************* 
+# Tanya Gyanmote, tgyanmot 
+# 2023 Winter CSE101 PA#6
+# MakeFile 
+# Complies and executes the program
+# ********************************************************************************* 
 #------------------------------------------------------------------------------
 #  Makefile for CSE 101 Programming Assignment 6
 #
@@ -15,11 +21,11 @@ ADT1           = BigInteger
 ADT2           = List
 SOURCE         = $(MAIN).cpp
 OBJECT         = $(MAIN).o
-ADT1_TEST      = $(ADT1)Client
+ADT1_TEST      = $(ADT1)Test
 ADT1_SOURCE    = $(ADT1).cpp
 ADT1_OBJECT    = $(ADT1).o
 ADT1_HEADER    = $(ADT1).h
-ADT2_TEST      = $(ADT2)Client
+ADT2_TEST      = $(ADT2)Test
 ADT2_SOURCE    = $(ADT2).cpp
 ADT2_OBJECT    = $(ADT2).o
 ADT2_HEADER    = $(ADT2).h

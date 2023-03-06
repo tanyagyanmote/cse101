@@ -1,3 +1,9 @@
+/*********************************************************************************
+* Tanya Gyanmote, tgyanmot
+* 2023 Winter CSE101 PA6
+* BigInteger.cpp
+* BigInteger ADT
+*********************************************************************************/
 #include<iostream>
 #include<stdexcept>
 #include <sstream>
@@ -5,11 +11,15 @@
 #include"List.h"
 #include"BigInteger.h"
 #include <algorithm> 
+#include <cstring>
+#include <iomanip>
 
 #include<cctype>
 
-#define BASE 1000000000
-#define POWER 9
+// #define BASE 1000000000
+// #define POWER 9
+const ListElement BASE = 1000000000;
+const int POWER = 9;
 
 //using namespace std;
 
@@ -43,15 +53,17 @@ BigInteger::BigInteger(std::string s){
         s.erase(0,1);
         signum = -1;
     }
-
+    //puesdo idea: norton
     if(s.find_first_not_of("0123456789") != std::string::npos){
         throw std::invalid_argument("BigInteger: Constructor: non-numeric string");
 
     }
+    //add to string
     for(i = s.length()-1; i >= 0;i--){
         counter ++;
         num += s[i];
         if(counter == POWER){
+            //reverse it
             reverse(num.begin(),num.end());
             digits.insertAfter(std::stol(num));
             num = "";
@@ -76,7 +88,7 @@ BigInteger::BigInteger(const BigInteger& N){
 
 void negateList(List& L) {
 	L.moveFront();
-	while(L.position() != 0) {
+	while(L.position() != L.length()) {
 		long el = L.moveNext();
 		L.setBefore(-1 * el);
 	}
@@ -84,66 +96,49 @@ void negateList(List& L) {
 
 int normalizeList(List& L){
     int sign = 1;
-    if(L.length() == 0){
-        return 0;
-    }
-    if(L.front() < 0){
-        negateList(L);
-        sign = -1;
-    }
-    L.moveBack();
     int carry = 0;
-    while(L.position() != 0){
-        long ele = L.peekPrev();
-        if(ele >= BASE){
-            carry = (ele/BASE);
-            L.setBefore(ele - (carry*BASE));
-            L.movePrev();
-            if(L.position() == 0){
-                L.insertBefore(carry);
-                if(carry < 0){
-                    negateList(L);
-                    L.moveBack();
-                    sign = -1;
-                }
-            }
-            else{
-                L.setBefore(L.peekPrev() + carry);
-                carry = 0;
-            }
+    L.moveBack();
+    while(L.position() > 0){
+        if(carry != 0){
+            L.setBefore(L.peekPrev() + carry);
+            carry = 0;
         }
-        //if its neg
-        else if(ele < 0){
-            carry = ((ele-BASE)+1)/BASE;
-            L.setBefore(ele - (carry*BASE));
+        //long ele = L.peekPrev();
+        if(L.peekPrev() >= BASE){
+            carry = (L.peekPrev()/BASE);
+            L.setBefore(L.peekPrev() - (carry*BASE));
             L.movePrev();
-            if(L.position() == 0){
-                L.insertBefore(carry);
-                if(carry < 0){
-                    negateList(L);
-                    L.moveBack();
-                    sign = -1;
-                }
-            }
-            else{
-                L.setBefore(L.peekPrev() + carry);
-                carry = 0;
-            }
+        }
+        else if(L.peekPrev() < 0 && L.position() > 1){
+            carry = (L.peekPrev()-BASE+1)/BASE;
+            L.setBefore(L.peekPrev() - (carry*BASE));
+            L.movePrev();
         }
         else{
             L.movePrev();
         }
     }
-    // if(L.length() > 0){
-    //     while(L.front() == 0){
-    //         L.eraseAfter();
-    //     }
-    // }
+    if(carry > 0){
+        L.insertBefore(carry);
+    }
+    if(L.front() < 0){
+        negateList(L);
+        normalizeList(L);
+        return -1;
+    }
+    while(L.position() < L.length()-1){
+        if(L.peekNext() == 0){
+            L.eraseAfter();
+        }
+        else{
+            break;
+        }
+    }
     return (sign>0) ? 1:-1;
 }
 
 void sumList(List& S, List A, List B, int sgn){
-    //S.clear();
+    S.clear();
     A.moveBack();
     B.moveBack();
     while((A.position() != 0 && B.position() != 0)){
@@ -167,15 +162,15 @@ void sumList(List& S, List A, List B, int sgn){
 void shiftList(List& L, int p) {
 	L.moveBack();
     for(int i = 0; i < p;i++){
-        L.insertAfter(0);
+        L.insertBefore(0);
     }
 }
 
 void scalarMultList(List& L, ListElement m) {
 	L.moveBack();
 	while (L.position() != 0) {
-		long ele = L.movePrev();
-		L.setAfter(m * ele);
+        L.setBefore(L.peekPrev() * m);
+        L.movePrev();
 	}
 }
 
@@ -232,31 +227,40 @@ void BigInteger::negate(){
 
 BigInteger BigInteger::add(const BigInteger& N) const{
     BigInteger added = BigInteger();
-    List one = N.digits;
-    List two = this->digits;
+    List ndig = N.digits;
+    List tdig = this->digits;
+    //int sgn = 1;
     if(N.signum < 0){
-        negateList(one);
+        negateList(ndig);
+        //sgn = -1;
     } 
     if(this->signum < 0){
-        negateList(two);
+        negateList(tdig);
+        //sgn = -1;
     } 
-    sumList(added.digits,two,one,1);
+    sumList(added.digits,tdig,ndig,1);
     added.signum = normalizeList(added.digits);
-    if(added.digits.length() == 0){
+    if(added.digits.length() == 1){
         added.signum = 0;
     }
     //std::cout << added.digits << std::endl; 
     return added;
 
 }
-
+//ou
 BigInteger BigInteger::sub(const BigInteger& N) const{
-    BigInteger subtr = BigInteger();
-    List one = N.digits;
-    List two = this->digits;
-    sumList(subtr.digits,two,one,-1);
-    subtr.signum = normalizeList(subtr.digits);
-    return subtr;
+    BigInteger subtr = BigInteger(N);
+    // List one = N.digits;
+    // List two = this->digits;
+    // sumList(subtr.digits,two,one,-1);
+    // subtr.signum = normalizeList(subtr.digits);
+    // if(subtr.digits.length() == 1){
+    //     subtr.signum = 0;
+    // }
+    // std::cout << subtr.digits << std::endl; 
+    // return subtr;
+    subtr.negate();
+    return add(subtr);
 }
 
 BigInteger BigInteger::mult(const BigInteger& N) const{
@@ -289,16 +293,46 @@ BigInteger BigInteger::mult(const BigInteger& N) const{
 // returned string will consist of the character '0' only.
 // Other Functions ---------------------------------------------------------
 
-// std::string BigInteger::to_string(){
-// }
+std::string BigInteger::to_string(){
+	// std::string s = "";
+	// if(this->signum == 0) {
+	// 	s += "0";
+	// 	return s;
+	// }
+	// if(this->signum == -1) {
+	// 	s += "-";
+	// }
+    std::string s = "";
+    if(this->signum == 0) {
+        s += "0";
+        return s;
+    }
+    List L = this->digits;
+    L.moveFront();
+    while(L.position() < L.length()) {
+        std::string num = std::to_string(L.moveNext());
+        while ((int)num.length() < POWER && L.position() != 1){
+            num = '0' + num;
+        }
+        s += num;
+    }
+    while(s[0] == '0'){
+        s.erase(0,1);
+    }
+    if(sign() == -1){
+        s.insert(0,1,'-');
+    }
+    return s;
+}
 
 
 // Overriden Operators -----------------------------------------------------
    
 // operator<<()
 // Inserts string representation of N into stream.
-// std::ostream& operator<<( std::ostream& stream, BigInteger N ){
-// }
+std::ostream& operator<<( std::ostream& stream, BigInteger N ){
+    return stream << N.BigInteger::to_string();
+}
 
 // operator==()
 // Returns true if and only if A equals B. 
@@ -371,6 +405,8 @@ BigInteger operator-( const BigInteger& A, const BigInteger& B ){
 BigInteger operator-=( BigInteger& A, const BigInteger& B ){
     A = A.BigInteger::sub(B);
     return A;
+    // A = A.sub(B);
+    // return A;
 }
 
 // operator*()
