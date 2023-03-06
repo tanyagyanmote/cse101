@@ -104,6 +104,7 @@ int normalizeList(List& L){
             carry = 0;
         }
         //long ele = L.peekPrev();
+        //puesdo idea from simon
         if(L.peekPrev() >= BASE){
             carry = (L.peekPrev()/BASE);
             L.setBefore(L.peekPrev() - (carry*BASE));
@@ -180,7 +181,7 @@ void scalarMultList(List& L, ListElement m) {
 int BigInteger::sign() const{
     return signum;
 }
-
+//using mikes puesdocode
 int BigInteger::compare(const BigInteger& N) const{
 	List T = this->digits;
 	List L = N.digits;
