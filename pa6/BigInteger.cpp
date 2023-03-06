@@ -390,7 +390,7 @@ BigInteger operator+( const BigInteger& A, const BigInteger& B ){
 // operator+=()
 // Overwrites A with the sum A+B. 
 BigInteger operator+=( BigInteger& A, const BigInteger& B ){
-    A = A.BigInteger::add(B);
+    A = A.add(B);
     return A;
 }
 
@@ -404,10 +404,8 @@ BigInteger operator-( const BigInteger& A, const BigInteger& B ){
 // operator-=()
 // Overwrites A with the difference A-B. 
 BigInteger operator-=( BigInteger& A, const BigInteger& B ){
-    A = A.BigInteger::sub(B);
+    A = A.sub(B);
     return A;
-    // A = A.sub(B);
-    // return A;
 }
 
 // operator*()
@@ -420,6 +418,6 @@ BigInteger operator*( const BigInteger& A, const BigInteger& B ){
 // operator*=()
 // Overwrites A with the product A*B. 
 BigInteger operator*=( BigInteger& A, const BigInteger& B ){
-    A = A.BigInteger::mult(B);
+    A = A.mult(B);
     return A;
 }
