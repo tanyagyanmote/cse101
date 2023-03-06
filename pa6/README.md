@@ -1,6 +1,6 @@
-# Programming Assignment 5
+# Programming Assignment 6
 
-This program aims to build a List ADT in C++ and some associated algorithms in C.
+This program aims to build a Big Integer ADT in C++ and some associated algorithms in C.
 
 ## Files
  
