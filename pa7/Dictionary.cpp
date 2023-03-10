@@ -399,3 +399,22 @@ void Dictionary::prev(){
 	current = findPrev(current);
 }
 
+// Other Functions ---------------------------------------------------------
+
+//used mikes puesdocode
+
+std::string Dictionary::to_string() const{
+    std::string s = "";
+    inOrderString(s, root);
+    return s;
+}
+
+std::string Dictionary::pre_string() const {
+    std::string s;
+    preOrderString(s, root);
+    return s;
+}
+
+bool Dictionary::equals(const Dictionary& D) const {
+    return (this->to_string() == D.to_string());
+}
