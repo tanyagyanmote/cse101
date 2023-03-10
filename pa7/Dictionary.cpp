@@ -197,3 +197,67 @@ Dictionary::Node* Dictionary::findPrev(Node* N){
     }
 }
 
+// Access functions --------------------------------------------------------
+
+// size()
+// Returns the size of this Dictionary.
+int Dictionary::size() const{
+    return num_pairs;
+}
+
+// contains()
+// Returns true if there exists a pair such that key==k, and returns false
+// otherwise.
+
+// mikes puesdo
+// set a temp Node* N to search from the root if k is in the dectionary
+// return N is not nil
+bool Dictionary::contains(keyType k) const{
+    Node *n = search(root,k);
+    return (n != nil);
+}
+
+// getValue()
+// Returns a reference to the value corresponding to key k.
+// Pre: contains(k)
+
+// mikes puesdo
+// set a temp Node* N to search from the root if k is in the dectionary
+// if N is nil:
+//     throw std::logic_error("Dictionary: getValue(): key \""+k+"\" does not exist");
+// return value of N
+valType& Dictionary::getValue(keyType k) const{
+    Node *n = search(root,k);
+    if(n == nil){
+        throw std::logic_error("Dictionary: getValue(): key \""+k+"\" does not exist");
+    }
+    return n->val;
+}
+
+// hasCurrent()
+// Returns true if the current iterator is defined, and returns false
+// otherwise.
+bool Dictionary::hasCurrent() const{
+    if (current != nil){
+        return true;
+    }
+    return false;
+}
+
+// currentKey()
+// Returns the current key.
+// Pre: hasCurrent()
+keyType Dictionary::currentKey() const{
+    if (!hasCurrent()){
+        throw std::logic_error("Dictionary: currentKey(): current undefined");
+    }
+    return current->key;
+}
+
+valType& Dictionary::currentVal() const{
+    if(!hasCurrent() ){
+        throw std::logic_error("Dictionary: currentVal(): current undefined");
+    }
+    return current->val;
+}
+
