@@ -1,3 +1,10 @@
+/********************************************************************************* 
+* Tanya Gyanmote, tgyanmot 
+* 2023 Winter CSE101 PA#7
+* Dictionary.cpp
+* Dictionary ADT file
+*********************************************************************************/ 
+
 #include<iostream>
 #include<string>
 #include<stdexcept>
