@@ -33,12 +33,15 @@ Dictionary::~Dictionary(){
 	delete nil;
 }
 
+
 // Helper Functions (Optional) ---------------------------------------------
 
 // inOrderString()
 // Appends a string representation of the tree rooted at R to string s. The
 // string appended consists of: "key : value \n" for each key-value pair in
 // tree R, arranged in order by keys.
+
+// used puesdo from BST algorithm
 void Dictionary::inOrderString(std::string& s, Node* R) const{
     // InOrderTreeWalk(x)
     // if x != NIL
@@ -91,6 +94,106 @@ void Dictionary::postOrderDelete(Node* R){
         postOrderDelete(R->left);
         postOrderDelete(R->right);
         delete R;
+    }
+}
+
+// search()
+// Searches the subtree rooted at R for a Node with key==k. Returns
+// the address of the Node if it exists, returns nil otherwise.
+Dictionary::Node* Dictionary::search(Node* R, keyType k) const{
+    // if x == NIL or k == x.key
+    //     return x
+    // else if k < x.key
+    //     return TreeSearch(x.left, k)
+    // else // k > x.key
+    //     return TreeSearch(x.right, k)
+    if(R == nil || k == R->key){
+        return R;
+    }
+    else if(k < R->key){
+        return search(R->left,k);
+    }
+    else {
+        return search(R->right,k);
+    }
+}
+
+// findMin()
+// If the subtree rooted at R is not empty, returns a pointer to the 
+// leftmost Node in that subtree, otherwise returns nil.
+Dictionary::Node* Dictionary::findMin(Node* R){
+    //pre x!=nil
+    // while x.left != NIL
+    //     x = x.left
+    // return x
+    while((R->left) != nil){
+        R = (R->left);
+    }
+    return R;
+}
+
+// findMax()
+// If the subtree rooted at R is not empty, returns a pointer to the 
+// rightmost Node in that subtree, otherwise returns nil.
+Dictionary::Node* Dictionary::findMax(Node* R){
+    //pre x!=nil
+    // while x.right != NIL
+    //     x = x.right
+    // return x
+    while((R->right) != nil){
+        R = (R->right);
+    }
+    return R;
+}
+
+// findNext()
+// If N does not point to the rightmost Node, returns a pointer to the
+// Node after N in an in-order tree walk.  If N points to the rightmost 
+// Node, or is nil, returns nil. 
+
+//puesdo: mike
+Dictionary::Node* Dictionary::findNext(Node* N){
+//    if N is nil return nil
+//    else if N->right isn't nil return the minimum of N->right
+//    else:
+//       set a temp Node* y to the parent node of N
+// 	  iterate as long as y isn't nil and N is not y->right:
+// 	      set N to y and then set y to it's parent node
+//     return y;
+    if(N == nil){
+        return nil;
+    }
+    else if(nil != (N->right)){
+        return findMin(N->right);
+    }
+    else{
+        Node *y = N->parent;
+        while(y != nil && N == y->right){
+            N = y;
+            y = y->parent;
+        }
+        return y;
+    }
+}
+
+// findPrev()
+// If N does not point to the leftmost Node, returns a pointer to the
+// Node before N in an in-order tree walk.  If N points to the leftmost 
+// Node, or is nil, returns nil.
+Dictionary::Node* Dictionary::findPrev(Node* N){
+    if(N == nil){
+        return nil;
+    }
+    else if(nil != (N->left)){
+        return findMax(N->left);
+    }
+    else{
+        Node *y = N->parent;
+        while(y != nil && N == y->left){
+            N = y;
+            y = y->parent;
+        }
+        return y;
     }
 }
 
