@@ -261,3 +261,141 @@ valType& Dictionary::currentVal() const{
     return current->val;
 }
 
+// Manipulation procedures -------------------------------------------------
+
+// mikes puesdo
+// post order delete on the root node
+// set the root to nil
+// set current nil
+// set num_pairs to 0
+void Dictionary::clear(){
+    postOrderDelete(root);
+    root = nil;
+    current = nil;
+    num_pairs = 0;
+}
+
+// used mikes puesdo
+void Dictionary::setValue(keyType k, valType v){
+    Node *p = nil;
+    Node *r = root;
+    while(r != nil){
+        p = r;
+        if(k < r->key){
+            r = r->left;
+        }
+        else if(k > r->key){
+            r = r->right;
+        }
+        else{
+            r->val = v;
+            return;
+        }
+    }
+    Node *n = new Node(k,v);
+    n->parent = p;
+    n->left = nil;
+    n->right = nil;
+    if(p == nil){
+        root = n;
+    }
+    else if(k < p->key){
+        p->left = n;
+    }
+    else{
+        p->right = n;
+
+    }
+    num_pairs +=1; 
+}
+
+//puesdo from BST example
+void Dictionary::transplant(Node* u, Node* v) {
+    if (u->parent == nil){
+        root = v;
+    }
+    else if(u == u->parent->left){
+        u->parent->left = v;
+    }
+    else{
+        u->parent->right = v;
+    }
+    if(v != nil){
+        v->parent = u ->parent;
+    }
+}
+
+//puesdo from mike
+void Dictionary::remove(keyType k){
+    Node *n = search(root,k);
+    if(n == nil){
+        throw std::logic_error("Dictionary: remove(): key \""+k+"\" does not exist");
+    }
+    if (current->key == k){
+        current = nil;
+    }
+    if(n->left == nil){
+        transplant(n,n->right);
+    }
+    else if(n->right == nil){
+        transplant(n,n->left);
+    }
+    else{
+        Node *y = findMin(n->right);
+        if(y->parent != n){
+            transplant(y,y->right);
+            y->right = n->right;
+            y->right->parent = y;
+        }
+        transplant(n,y);
+        y->left = n->left;
+        y->left->parent = y;
+    }
+    delete n;
+    num_pairs -= 1;
+}
+
+// begin()
+// If non-empty, places current iterator at the first (key, value) pair
+// (as defined by the order operator < on keys), otherwise does nothing. 
+// set the current node to the minimum leaf node from the root
+void Dictionary::begin(){
+	if(num_pairs != 0){
+		current = findMin(root);
+	}
+}
+
+// end()
+// If non-empty, places current iterator at the last (key, value) pair
+// (as defined by the order operator < on keys), otherwise does nothing. 
+// set the current node to the maximum leaf node from the root
+void Dictionary::end(){
+	if(num_pairs != 0){
+		current = findMax(root);
+	}
+}
+
+// next()
+// If the current iterator is not at the last pair, advances current 
+// to the next pair (as defined by the order operator < on keys). If 
+// the current iterator is at the last pair, makes current undefined.
+// Pre: hasCurrent()
+void Dictionary::next(){
+	if(!(hasCurrent())){
+		throw std::logic_error("Dictionary: next(): current iterator is not defined");
+	}
+	current = findNext(current);
+}
+
+// prev()
+// If the current iterator is not at the first pair, moves current to  
+// the previous pair (as defined by the order operator < on keys). If 
+// the current iterator is at the first pair, makes current undefined.
+// Pre: hasCurrent()
+void Dictionary::prev(){
+	if(!(hasCurrent())){
+		throw std::logic_error("Dictionary: prev(): current iterator is not defined");
+	}
+	current = findPrev(current);
+}
+
