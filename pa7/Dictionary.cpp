@@ -418,3 +418,25 @@ std::string Dictionary::pre_string() const {
 bool Dictionary::equals(const Dictionary& D) const {
     return (this->to_string() == D.to_string());
 }
+
+// Overloaded Operators -------------------------------------------------------
+
+
+std::ostream& operator<<( std::ostream& stream, Dictionary& D ) {
+    return stream << D.Dictionary::to_string();
+}
+
+bool operator==( const Dictionary& A, const Dictionary& B ) {
+    return A.Dictionary::equals(B);
+}
+
+Dictionary& Dictionary::operator=(const Dictionary& D){
+    if(this != &D){
+        Dictionary temp = D;
+        std::swap(nil, temp.nil);
+        std::swap(root, temp.root);
+        std::swap(current, temp.current);
+        std::swap(num_pairs, temp.num_pairs);
+    }
+    return *this;
+}
