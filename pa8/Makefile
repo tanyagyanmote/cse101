@@ -1,11 +1,11 @@
 #********************************************************************************* 
 # Tanya Gyanmote, tgyanmot 
-# 2023 Winter CSE101 PA#7
+# 2023 Winter CSE101 PA#8
 # MakeFile 
 # Complies and executes the program
 # ********************************************************************************* 
 #------------------------------------------------------------------------------
-#  Makefile for CSE 101 Programming Assignment 7
+#  Makefile for CSE 101 Programming Assignment 8
 #
 #  make                     makes Order
 #  make DictionaryClient    makes DictionaryClient
@@ -14,11 +14,12 @@
 #  make DictionaryCheck     runs DictionaryClient under valgrind
 #------------------------------------------------------------------------------
 
-MAIN           = Order
+MAIN           = WordFrequency
+MAIN2          = Order
 ADT            = Dictionary
 SOURCE         = $(MAIN).cpp
 OBJECT         = $(MAIN).o
-ADT_TEST       = $(ADT)Test
+ADT_TEST       = $(ADT)Client
 ADT_SOURCE     = $(ADT).cpp
 ADT_OBJECT     = $(ADT).o
 ADT_HEADER     = $(ADT).h
@@ -29,6 +30,9 @@ MEMCHECK       = valgrind --leak-check=full
 
 $(MAIN): $(OBJECT) $(ADT_OBJECT)
 	$(LINK) $(MAIN) $(OBJECT) $(ADT_OBJECT)
+
+$(MAIN2): $(OBJECT) $(ADT_OBJECT)
+	$(LINK) $(MAIN2) $(OBJECT) $(ADT_OBJECT)
 
 $(ADT_TEST): $(ADT_TEST).o $(ADT_OBJECT)
 	$(LINK) $(ADT_TEST) $(ADT_TEST).o $(ADT_OBJECT)
@@ -43,10 +47,10 @@ $(ADT_OBJECT): $(ADT_SOURCE) $(ADT_HEADER)
 	$(COMPILE) $(ADT_SOURCE)
 
 clean:
-	$(REMOVE) $(MAIN) $(ADT_TEST) $(OBJECT) $(ADT_TEST).o $(ADT_OBJECT)
+	$(REMOVE) $(MAIN) $(MAIN2) $(ADT_TEST) $(OBJECT) $(ADT_TEST).o $(ADT_OBJECT)
 
 $(MAIN)Check: $(MAIN)
-	$(MEMCHECK) $(MAIN) in5 junk5
+	$(MEMCHECK) $(MAIN) Gutenberg myGutenberg-out
 
 $(ADT)Check: $(ADT_TEST)
 	$(MEMCHECK) $(ADT_TEST)
