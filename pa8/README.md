@@ -1,4 +1,4 @@
-# Programming Assignment 7
+# Programming Assignment 8
 
 This program aims to build a Dictionary ADT in C++ and some associated algorithms in C.
 
@@ -12,9 +12,11 @@ This program aims to build a Dictionary ADT in C++ and some associated algorithm
 
 4. Order.cpp - Contains the main file of the program and will use the Dictionary ADT to do operations on a Dictionary
 
-5. MakeFile - Complies and builds the program
+5. WordFrequency.cpp - Contains the main file of the program and will use the Dictionary ADT to do operations on a Dictionary
 
-6. Readme.md - describes how the program will run
+6. MakeFile - Complies and builds the program
+
+7. Readme.md - describes how the program will run
 
 ## How to Build
 
@@ -32,4 +34,8 @@ Once the program is built, Arithmetic can be called using two input numbers
 
 ```python
 ./Order in.txt out,txt
+```
+
+```python
+./WordFrequency in.txt out,txt
 ```

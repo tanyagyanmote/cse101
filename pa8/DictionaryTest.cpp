@@ -170,29 +170,23 @@ int main(){
 //    }
 //    cout << endl;  
 
-    Dictionary A;
+    Dictionary A, B;
 
-    string ideal1 = "d\nb\nc\nf\ne\ng\n";
-    string ideal2 = "e\nb\nc\nf\ng\n";
-    string ideal3 = "e\nb\nc\nf\n";
-    A.setValue("d", 1);
+    A.setValue("a", 1);
     A.setValue("b", 5);
-    A.setValue("a", 10);
-    A.setValue("c", 15);
-    A.setValue("f", 20);
-    A.setValue("e", 25);
-    A.setValue("g", 30);
-    A.begin();
-    A.remove("a");
+    A.setValue("e", 3214);
+    A.end();
+    A.prev();
+    if (A.currentKey() != "b" || A.currentVal() != 5)
+        cout << 1 << endl;
+    A.prev();
+    A.prev();
+
+    cout << " A : " << A << endl;
+    cout << "this: " << A.hasCurrent() << endl;
+
     if (A.hasCurrent())
-      return 1;
-    cout << "pre string" << A.pre_string() << endl;
-    
-    // if (A.pre_string() != ideal1)
-    //   return 12;
-
-    // A.end();
-    // A.remove("d");
-
+        cout << 2 << endl;
+    return 0;
    return( EXIT_SUCCESS );
 }
