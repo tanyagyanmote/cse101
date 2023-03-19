@@ -26,9 +26,6 @@ Dictionary::Dictionary(){
     root = nil;
     current = nil;
     num_pairs = 0;
-    nil->left = nil;
-	nil->right = nil;
-	nil->parent = nil;
 	nil->color = 1;
 }
 
@@ -37,9 +34,6 @@ Dictionary::Dictionary(const Dictionary &D){
     root = nil;
     current = nil;
     num_pairs = 0;
-    nil->left = nil;
-	nil->right = nil;
-	nil->parent = nil;
 	nil->color = 1;
     preOrderCopy(D.root, D.nil);
 }
